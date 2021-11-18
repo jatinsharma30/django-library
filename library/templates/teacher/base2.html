@@ -26,12 +26,21 @@
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                     <li class="nav-item">
-                        <a class="nav-link active" aria-current="page" href="/">Home</a>
+                        <a class="nav-link {% block homeActive %}{% endblock homeActive %}" aria-current="page" href="/teacher">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link {% block requestsActive %}{% endblock requestsActive %}" aria-current="page" href={% url 'requests' %}>requests</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link {% block studentsActive %}{% endblock studentsActive %}" aria-current="page" href={% url 'students' %}>students</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link {% block issuedBooksActive %}{% endblock issuedBooksActive %}" aria-current="page" href={% url 'issuedBooks' %}>Issued Books</a>
                     </li>
                 </ul>
                 <form class="d-flex">
-                    <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-                    <button class="btn btn-outline-success" type="submit">Search</button>
+                    <input class="form-control me-2" type="search" id='searchText' placeholder="Search" aria-label="Search">
+                    <button class="btn btn-outline-success" onclick="search()" type="submit">Search</button>
                 </form>
                 <!-- Button trigger modal -->
                 <ul class="navbar-nav ml-auto mb-2 mb-lg-0">

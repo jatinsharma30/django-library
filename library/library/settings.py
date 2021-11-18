@@ -40,7 +40,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'home.apps.HomeConfig',
-    'student.apps',
+    'student.apps.StudentConfig',
     'teacher.apps.TeacherConfig',
 ]
 
@@ -55,6 +55,7 @@ MIDDLEWARE = [
 ]
 
 ROOT_URLCONF = 'library.urls'
+LOGIN_URL='/'
 
 TEMPLATES = [
     {

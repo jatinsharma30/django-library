@@ -26,26 +26,34 @@
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                     <li class="nav-item">
-                        <a class="nav-link active" aria-current="page" href="/student">Home</a>
+                        <a class="nav-link {% block homeActive %}{% endblock homeActive %}" aria-current="page" href="/student">Home</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link active" aria-current="page" href="wishList">wishlist</a>
+                        <a class="nav-link {% block wishListActive %}{% endblock wishListActive %}" aria-current="page" href={% url 'wishList' %}>wishlist</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link {% block profileActive %}{% endblock profileActive %}" aria-current="page" href={% url 'profile' %}>profile</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link {% block issuedActive %}{% endblock issuedActive %}" aria-current="page" href={% url 'issued' %}>Issued Books</a>
                     </li>
                 </ul>
                 <form class="d-flex">
-                    <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-                    <button class="btn btn-outline-success" type="submit">Search</button>
+                    <input class="form-control me-2" type="search" id="myInput" onkeyup='search()'
+                        placeholder="Search" aria-label="Search">
+                    {% comment %} <button class="btn btn-outline-success" onclick="search()" type="submit">Search</button> {% endcomment %}
                 </form>
                 <!-- Button trigger modal -->
                 <ul class="navbar-nav ml-auto mb-2 mb-lg-0">
                     <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
+                            data-bs-toggle="dropdown" aria-expanded="false">
                             welcome {{request.user.first_name}}
                         </a>
                         <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
                             <li><a class="dropdown-item" href="/logout">Logout</a></li>
                         </ul>
-                        </li>
+                    </li>
                 </ul>
             </div>
         </div>
@@ -61,9 +69,40 @@
 
 
     </div>
+    <script>
+        function search() {
+            
+            let searchText = document.getElementById('myInput');
+            if (searchText.value=='') {
+                window.location.reload(); 
+            }
+            // console.log(searchText.value);
+            let filter = searchText.value.toUpperCase();
+            let tablebody = document.getElementById('tableBody');
+            var tr=tablebody.getElementsByTagName('tr');
+            console.log(tr)
+            let c=0
+            for (let i = 0; i < tr.length; i++) {
+                const element = tr[i];
+                txtValue = element.textContent || element.innerText;
+                if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                    element.style.display = "";
+                } else {
+                    element.style.display = "none";
+                    c++
+                }
+            }
+            
+            if (c==tr.length){
+                let tablebody = document.getElementById('tableBody');
+                tablebody.innerHTML=`<p>your query:<b>${filter}</b> did not match</p>`
+            }
+        }
+    </script>
     <!-- <script src="/js/index.js"></script> -->
     {% block body %} {% endblock body %}
-    {% block js %} {% endblock js %}
+    {% block js %}
+    {% endblock js %}
     <!-- Optional JavaScript; choose one of the two! -->
 
     <!-- Option 1: Bootstrap Bundle with Popper -->

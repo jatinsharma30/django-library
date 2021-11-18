@@ -26,20 +26,14 @@ class BOOK(models.Model):
         choices=genres,
         default='Drama',
     )
+    statusValue=[
+        ('available','available'),
+        ('not available','not available')
+    ]
+    status=models.CharField(max_length=13,choices=statusValue,default='available')
     def __str__(self):
         return self.name + " by " + self.author
 
-# class extendUser(models.Model):
-#     userTypes=[
-#         ('teacher','teacher'),
-#         ('student','student')
-#     ]
-#     userType=models.CharField(
-#         max_length=7,
-#         choices=userTypes,
-#         default='student'
-#         )
-#     user=models.OneToOneField(User,on_delete=models.CASCADE)
     
 class myUser(AbstractUser):
     userTypes=[

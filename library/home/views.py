@@ -52,19 +52,23 @@ def handleSignup(request):
         password2=request.POST['sinupPassword2']
         type=request.POST['type']
         print(fname,lname,password1,password2,type)
-        myuser=myUser.objects.create_user(username=username,email=username ,password=password1)
-        myuser.first_name=fname
-        myuser.last_name=lname
-        myuser.userType=type
-        myuser.save()
-        if type=='teacher':
-            auth.login(request,myuser)
-            messages.success(request,'you account has been successfully created as teacher')
-            return redirect('/teacher')
-        else :
-            auth.login(request,myuser)
-            messages.success(request,'you account has been successfully created as student')
-            return redirect('/student')
+        if myUser.objects.filter(username=username).exists():
+            messages.error(request,'username taken kindly login or enter another username')
+            return redirect('/')
+        else:
+            myuser=myUser.objects.create_user(username=username,email=username ,password=password1)
+            myuser.first_name=fname
+            myuser.last_name=lname
+            myuser.userType=type
+            myuser.save()
+            if type=='teacher':
+                auth.login(request,myuser)
+                messages.success(request,'you account has been successfully created as teacher')
+                return redirect('/teacher')
+            else :
+                auth.login(request,myuser)
+                messages.success(request,'you account has been successfully created as student')
+                return redirect('/student')
     else:
         return HttpResponse('404 page not found')
 
@@ -94,11 +98,11 @@ def handleLogout(request):
     return redirect('/')
 
 # to check user infos
-@login_required(login_url='/home/')
-def show(request):
-    #request.user give current active user
-    data=User.objects.filter(username=request.user)
-    # data=User.objects.get(type=request.user)
-    for d in data:
-        print(d)
-    return HttpResponse(request,data)
+# @login_required(login_url='/home/')
+# def show(request):
+#     #request.user give current active user
+#     data=User.objects.filter(username=request.user)
+#     # data=User.objects.get(type=request.user)
+#     for d in data:
+#         print(d)
+#     return HttpResponse(request,data)

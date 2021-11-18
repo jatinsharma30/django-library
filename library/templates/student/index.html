@@ -1,4 +1,5 @@
 {% extends 'student/base1.html' %}
+{% block homeActive %}active{% endblock homeActive %}
 {% block body %}
 <div class="container">
     <div id="table" class="my-3">
@@ -14,6 +15,7 @@
             </thead>
             <tbody id='tableBody'>
             {% for book in books %}
+            {% if book.status == 'available' %}
             <tr id="{{book.book_id}}">
                 <td>{{book.name}}</td>
                 <td>{{book.author}}</td>
@@ -22,6 +24,7 @@
                         onclick="addtowishlist('{{book.name}}','{{book.author}}','{{book.genre}}','{{book.book_id}}')"
                         class="btn btn-primary">Add to Wishlist</a></td>
             </tr>
+            {% endif %}
             {% endfor %}
         </tbody>
         </table>
