@@ -14,7 +14,7 @@ from pathlib import Path
 from django.contrib.messages import constants as messages
 from django.http.request import MediaType
 
-import django_heroku
+#import django_heroku
 import dj_database_url
 from decouple import config
 
